@@ -66,3 +66,26 @@ plt.scatter(pos_1, corr_values_1, color='r')
 plt.legend(['0 coeff in y', '1 coeff in y'])
 plt.grid(True)
 plt.show()
+
+    
+
+fileName1 = "corr1.dat"
+with open(fileName1, "w") as f:
+	f.write("x y\n")
+	for i in range(len(pos_1)):
+		f.write(str(pos_1[i]) + " " + str(corr_values_1[i]) + "\n")
+f.close()
+
+#stampo anche i valori per corr_0, però non posso prenderne troppi altrimenti latex si impunta a stamparli
+
+numberofSamples = len(pos_1) * 10
+samples = sample(range(len(pos_0)), numberofSamples)  # sample u poly
+sampled_pos_0 = [pos_0[i] for i in samples ]
+sampled_corr_values_0 = [corr_values_0[i] for i in samples ]
+
+fileName0 = "corr0.dat"
+with open(fileName0, "w") as f:
+	f.write("x y\n")
+	for i in range(len(sampled_pos_0)):
+		f.write(str(sampled_pos_0[i]) + " " + str(sampled_corr_values_0[i]) + "\n")
+f.close()
