@@ -38,14 +38,11 @@ def sign(pk,sk):
 			ui = [1 for i in range(wu)] + [0 for i in range(k-wu)]
 			ui = [ui[p[i]-1] for i in range(k)]	
 			u += [ui]
-		print('AAA')
 		b = [R(e[0])*pk, R(e[1])*pk.inverse_of_unit()]
-		print('BBBB')
 		p = P.random_element()
 		c = [1 for i in range(wc)] + [0 for i in range(k-wc)]
 		c = [c[p[i]-1] for i in range(k)]	
 		s = [R(u[i])*sk[i]+ R(c)*R(e[i]) for i in range(2)]
-		print(weight(s[1]),weight(s[0]),weight(R(u[0])*sk[1] + R(u[1])*sk[0]))
 		if weight(s[1]) <= ws and weight(s[0]) <= ws and weight(R(u[0])*sk[1] + R(u[1])*sk[0]) <= wt:
 			return s,b,c,e
 			
@@ -53,39 +50,39 @@ def sign(pk,sk):
 		
 pk,sk = keygen()
 
-		
-s,b,c,e = sign(pk,sk)
-c = R1(c)
-stats = [ZZ(0)]*k
-p0=[]
-p1=[]
-for m in c.monomials():
-	v = m.degree()
-	si = s[0]*x^(k-v)
-	lsi = list(si)
+mins = []
+for j in range(10):		
+	s,b,c,e = sign(pk,sk)
+	c = R1(c)
+	stats = [ZZ(0)]*k
+	p0=[]
+	p1=[]
+	for m in c.monomials():
+		v = m.degree()
+		si = s[0]*x^(k-v)
+		lsi = list(si)
+		for i in range(k):
+			stats[i] += ZZ(lsi[i])
+
+	zeros = []
+	ones = []
 	for i in range(k):
-		stats[i] += ZZ(lsi[i])
+		if e[0][i] == 0:
+			p0 += [i]
+			zeros += [stats[i]]
+			
+		else:
+			p1 += [i]
+			ones += [stats[i]]
+	#plt.scatter(p0, zeros, color='b')
+	#plt.scatter(p1, ones, color='r')
+	#plt.legend(['0 coeff in y', '1 coeff in y'])
+	#plt.grid(True)
+	#plt.show()
 
-zeros = []
-ones = []
-for i in range(k):
-	if e[0][i] == 0:
-		p0 += [i]
-		zeros += [stats[i]]
-		
-	else:
-		p1 += [i]
-		ones += [stats[i]]
-plt.scatter(p0, zeros, color='b')
-plt.scatter(p1, ones, color='r')
-plt.legend(['0 coeff in y', '1 coeff in y'])
-plt.grid(True)
-plt.show()
-
-		
-		
-		
-		
-		
+	print(j)
+	z = [i for i in range(len(p0)) if zeros[i]<12]
+	print(len(z),min(ones),len([i for i in ones if i<12]))
+	mins += [min(ones)]
 		
 		
