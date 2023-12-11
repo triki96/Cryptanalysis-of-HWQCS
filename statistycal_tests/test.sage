@@ -68,22 +68,29 @@ w_e = 141
 count_min = 0
 count_max = 0
 
+count = 0
 for i in range(1000):
 	#print(i)
 	corr_values_0, corr_values_1 = test(k,w_u,w_f,w_c,w_e)
-	max_corr = 23
-	min_corr = 11
+	max_corr = 24
+	min_corr = 12
 
-	certain_1_values = len([x for x in corr_values_1 if x > max_corr])
-	count_max = count_max + certain_1_values
-	count_max_mean = count_max / (i+1) *1.
+	#vorrei vedere quante volte i valori 1 scendono sotto il 13
+	minimum = min(corr_values_1)
+	if (minimum < 13):
+		count += 1
+		print("Percentuale guess corretti: ", 1 - count / (i+1) * 1.)
 
-	certain_0_values = len([x for x in corr_values_0 if x < min_corr])
-	count_min = count_min + certain_0_values
-	count_min_mean = count_min / (i+1) * 1.
+	#certain_1_values = len([x for x in corr_values_1 if x > max_corr])
+	#count_max = count_max + certain_1_values
+	#count_max_mean = count_max / (i+1) *1.
 
-	print("Valori certi degli 1", count_max_mean)
-	print("Valori certi degli 0", count_min_mean)
+	# certain_0_values = len([x for x in corr_values_0 if x < min_corr])
+	# count_min = count_min + certain_0_values
+	# count_min_mean = count_min / (i+1) * 1.
+
+	# print("Valori certi degli 1", count_max_mean)
+	# print("Valori certi degli 0", count_min_mean)
 
 # plt.scatter(pos_0, corr_values_0, color='b')
 # plt.scatter(pos_1, corr_values_1, color='r')

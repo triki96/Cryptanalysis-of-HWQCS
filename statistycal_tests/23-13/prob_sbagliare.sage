@@ -65,25 +65,35 @@ w_f = 145
 w_c = 31
 w_e = 141
 
-count_min = 0
-count_max = 0
+casi_fav = 0
+casi_poss = 0
+prob = 0
 
 for i in range(1000):
-	#print(i)
 	corr_values_0, corr_values_1 = test(k,w_u,w_f,w_c,w_e)
-	max_corr = 23
-	min_corr = 11
+	zeroes_12 = [x for x in corr_values_0 if x == 12]
+	ones_12 = [x for x in corr_values_1 if x == 12] #potrebbe essere vuoto
+	if zeroes_12:
+		len_zeroes_12 =  len(zeroes_12) #potrebbe essere vuoto
+	else:
+		len_zeroes_12 = 0
+	if ones_12:
+		len_ones_12 =  len(ones_12) #potrebbe essere vuoto
+	else:
+		len_ones_12 = 0 #non mi aspetto mai che sia zero in realtà
+	
+	# print(len_ones_12)
+	# print(len_zeroes_12)
+	# print("*" * 50)
 
-	certain_1_values = len([x for x in corr_values_1 if x > max_corr])
-	count_max = count_max + certain_1_values
-	count_max_mean = count_max / (i+1) *1.
+	casi_fav += len_ones_12
+	casi_poss += len_zeroes_12
+	prob = casi_fav / casi_poss * 1.
+	print(prob)
 
-	certain_0_values = len([x for x in corr_values_0 if x < min_corr])
-	count_min = count_min + certain_0_values
-	count_min_mean = count_min / (i+1) * 1.
 
-	print("Valori certi degli 1", count_max_mean)
-	print("Valori certi degli 0", count_min_mean)
+
+	
 
 # plt.scatter(pos_0, corr_values_0, color='b')
 # plt.scatter(pos_1, corr_values_1, color='r')
