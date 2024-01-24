@@ -28,7 +28,7 @@ def computeBinomProb(n,k,p):
 	return binomial(n,k) * p^k * (1-p)^(n-k) * 1.
 
 
-p = 0.38348673
+p = 0.38348673	
 for i in range(30):
 	print(i)
 	prob = computeBinomProb(31,i,p)

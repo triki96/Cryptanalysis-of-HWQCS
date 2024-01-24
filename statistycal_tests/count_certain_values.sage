@@ -71,10 +71,14 @@ count_max = 0
 for i in range(1000):
 	#print(i)
 	corr_values_0, corr_values_1 = test(k,w_u,w_f,w_c,w_e)
-	max_corr = 23
-	min_corr = 11
+	max_corr = 12
+	min_corr = 12
 
-	certain_1_values = len([x for x in corr_values_1 if x > max_corr])
+	# certain_1_values = len([x for x in corr_values_1 if x > max_corr])
+	# count_max = count_max + certain_1_values
+	# count_max_mean = count_max / (i+1) *1.
+
+	certain_1_values = len([x for x in corr_values_1 if x < max_corr])
 	count_max = count_max + certain_1_values
 	count_max_mean = count_max / (i+1) *1.
 
@@ -82,8 +86,8 @@ for i in range(1000):
 	count_min = count_min + certain_0_values
 	count_min_mean = count_min / (i+1) * 1.
 
-	print("Valori certi degli 1", count_max_mean)
-	print("Valori certi degli 0", count_min_mean)
+	print("Valori 1 trovati", count_max_mean)
+	print("Valori 0 trovati", count_min_mean)
 
 # plt.scatter(pos_0, corr_values_0, color='b')
 # plt.scatter(pos_1, corr_values_1, color='r')

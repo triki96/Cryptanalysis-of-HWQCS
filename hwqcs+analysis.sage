@@ -125,31 +125,38 @@ while not broken:
 	z113 = [k + i for i in range(k) if stats1[i]==12]
 	#if len([i for i in s0ones if i<12])>0 or len([i for i in s1ones if i<12])>0: continue
 	
-	print("Start searching for an invertible submatrix")
-	Htmp = zero_matrix(k)
-	while not Htmp.is_invertible():
-		print("guess some/other columns to exclude on the left and on the right...")
-		s0smpcoord = sample(range(len(z013)), ceil(k/2)-len(z0))
-		s0smp = [z013[i] for i in s0smpcoord]
-		cols0 = z0 + s0smp
-		s1smpcoord = sample(range(len(z113)), k-ceil(k/2)-len(z1))
-		s1smp = [z113[i] for i in s1smpcoord]
-		cols = cols0 + z1 + s1smp
-		print(len(z0), len(s0smp), len(z1),len(s1smp))
-		sel = [i for i in range(2*k) if i not in cols]
-		print("build the submatrix ...")
-		Htmp = H[:,sel]
-		print(f'Matrix is invertible : {Htmp.rank()==k}')
-	for i in cols:
-		if e[i] == 1:
-			print("Cazzo che sfiga")
-	print("Computing error vector...")
+	
+	numberOfAttempts = 0
 
-	etmp = Htmp.inverse()*b
-	erec = [0]*(2*k)
-	for i in range(k):
-		erec[sel[i]] = etmp[i]
-	broken = vector(erec) == e
-	print(f'Found error vector is valid : {broken}')
+	while not broken and numberOfAttempts < 5:
+		numberOfAttempts += 1
+		print("Start searching for an invertible submatrix")
+		Htmp = zero_matrix(k)
+	
+		print("attempt: ", numberOfAttempts)
+		while not Htmp.is_invertible():
+			print("guess some/other columns to exclude on the left and on the right...")
+			s0smpcoord = sample(range(len(z013)), ceil(k/2)-len(z0))
+			s0smp = [z013[i] for i in s0smpcoord]
+			cols0 = z0 + s0smp
+			s1smpcoord = sample(range(len(z113)), k-ceil(k/2)-len(z1))
+			s1smp = [z113[i] for i in s1smpcoord]
+			cols = cols0 + z1 + s1smp
+			print(len(z0), len(s0smp), len(z1),len(s1smp))
+			sel = [i for i in range(2*k) if i not in cols]
+			print("build the submatrix ...")
+			Htmp = H[:,sel]
+			print(f'Matrix is invertible : {Htmp.rank()==k}')
+		for i in cols:
+			if e[i] == 1:
+				print("Cazzo che sfiga")
+		print("Computing error vector...")
+
+		etmp = Htmp.inverse()*b
+		erec = [0]*(2*k)
+		for i in range(k):
+			erec[sel[i]] = etmp[i]
+		broken = vector(erec) == e
+		print(f'Found error vector is valid : {broken}')
 		
 		
