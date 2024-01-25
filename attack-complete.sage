@@ -1,11 +1,11 @@
 # Level 128
-k,wf,wu,we,wc,ws,wt = 12539,145,33,141,31,4844, 4937
+k,wf,wu,we,wc,ws,wt,tau = 12539,145,33,141,31,4844,4937,12
 
 # Level 192
-#k,wf,wu,we,wc,ws,wt = 18917,185,41,177,39,7450,7592
+#k,wf,wu,we,wc,ws,wt,tau = 18917,185,41,177,39,7450,7592,15
 
 # Level 256
-#k,wf,wu,we,wc,ws,wt = 25417,145,51,191,51,10111,10216
+#k,wf,wu,we,wc,ws,wt,tau = 25417,145,51,191,51,10111,10216,21
 
 
 F = GF(2)
@@ -14,14 +14,6 @@ R.<x> = R1.quo(y^k - 1)
 
 def weight(v):
 	return sum(1 for i in v if i==1)
-
-def getmultmatrix(R,P2,nrows):
-	M = []
-	for i in range(k):
-		el = list((R*x^i).mod(P2))
-		M.append(el + [0 for j in range(k-len(el))])
-	M = matrix(Fqm,M)
-	return M[:nrows,:]
 
 def keygen():
 	f = []
@@ -118,21 +110,21 @@ for i in range(30):
 		
 		
 
-		z0 = [i for i in range(k) if stats0[i]<12]
-		print(len(z0),min(s0ones),len([i for i in s0ones if i<=12]))
+		z0 = [i for i in range(k) if stats0[i]<tau]
+		#print(len(z0),min(s0ones),len([i for i in s0ones if i<=tau]))
 
-		z1 = [k+i for i in range(k) if stats1[i]<12]
-		print(len(z1),min(s1ones),len([i for i in s1ones if i<=12]))
+		z1 = [k+i for i in range(k) if stats1[i]<tau]
+		#print(len(z1),min(s1ones),len([i for i in s1ones if i<=tau]))
 
-		z013 = [i for i in range(k) if stats0[i]==12]
+		z013 = [i for i in range(k) if stats0[i]==tau]
 
-		z113 = [k + i for i in range(k) if stats1[i]==12]
+		z113 = [k + i for i in range(k) if stats1[i]==tau]
 
 		
 		if True:
-			print("Start searching for an invertible submatrix")
+			#print("Start searching for an invertible submatrix")
 			Htmp = zero_matrix(k)
-			print("guess some/other columns to exclude on the left and on the right...")
+			#print("guess some/other columns to exclude on the left and on the right...")
 			s0smpcoord = sample(range(len(z013)), ceil(k/2)-len(z0))
 			s0smp = [z013[i] for i in s0smpcoord]
 			cols0 = z0 + s0smp
@@ -142,22 +134,23 @@ for i in range(30):
 			skip = False
 			for i in cols:
 				if e[i] == 1:
-					print("Cazzo che sfiga", i)
+					#print("Unlucky", i)
 					skip = True
 			if skip: continue
 			
-			print(len(z0), len(s0smp), len(z1),len(s1smp))
+			#print(len(z0), len(s0smp), len(z1),len(s1smp))
 			sel = [i for i in range(2*k) if i not in cols]
-			print("build the submatrix ...")
+			#print("build the submatrix ...")
 			Htmp = H[:,sel]
-			print(f'Matrix is invertible : {Htmp.rank()==k}')
+			#print(f'Matrix is invertible : {Htmp.rank()==k}')
 			if Htmp.rank() != k : continue
-			print("Computing error vector...")
+			#print("Computing error vector...")
 			etmp = Htmp.inverse()*b
 			erec = [0]*(2*k)
 			for i in range(k):
 				erec[sel[i]] = etmp[i]
 			broken = vector(erec) == e
 			print(f'Found error vector is valid : {broken}')
+			print("*"*50)
 		
 		
