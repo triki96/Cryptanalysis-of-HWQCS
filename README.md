@@ -10,6 +10,7 @@ The repository is made up of different files, all written in SageMath:
 
  - *information_leakage.sage* shows the information leakage which affects the ephemeral values of HWQCS.
  - *attack_complete.sage* perform the recovery of the ephemeral values used in HWQCS.
+ - *theorem_1_check.sage* checks how near is our approximation to the experimental values that we observe.
 
  
 To run the main attack, use:
