@@ -62,10 +62,10 @@ def sign(H,sk):
 		c = [c[p[i]-1] for i in range(k)]	
 		s = [R(u[i])*sk[i]+ R(c)*R(list(e)[k*i:k*(i+1)]) for i in range(2)]
 		if weight(s[1]) <= ws and weight(s[0]) <= ws and weight(R(u[0])*sk[1] + R(u[1])*sk[0]) <= wt:
-		return s,b,c,e
+			return s,b,c,e
 			
 		
-for i in range(1):	
+for i in range(30):	
 	pk,sk = keygen()
 	print("computing public matrix, might take a while ...")
 	h1 = matrix.circulant(list(pk))
