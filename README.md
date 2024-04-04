@@ -15,7 +15,7 @@ The repository is made up of different files, all written in SageMath:
  
 To run the main attack, use:
 ```
-sage attack_complete.sage
+sage attack-complete.sage
 ```
 
 
